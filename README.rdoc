@@ -1,3 +1,36 @@
-= delays
+= Опоздания (модуль для Redmine)
 
-Description goes here
+Дополнение к модулю "Отсутствия". Доступ к нему имеют Отпуск-менеджеры (из модуля "Отсутствия"). Позволяет регистрировать опоздания сотрудников.
+
+= Registration delays (Redmine plugin)
+
+Redmine plugin to register late for work
+
+== Installation
+
+  cd vendor/plugins
+  git clone git://github.com/rubynovich/redmine_delays.git
+  cd ../..
+  rake db:migrate:plugins RAILS_ENV=production  
+
+*or*
+
+  ./script/plugin -v install git://github.com/rubynovich/redmine_delays.git
+  rake db:migrate:plugins RAILS_ENV=production
+
+== Update
+
+  cd vendor/plugins/redmine_delays
+  git pull
+  cd ../../..
+  rake db:migrate:plugins RAILS_ENV=production  
+  
+*or*
+
+  ./script/plugin update
+  rake db:migrate:plugins RAILS_ENV=production    
+
+== Remove
+
+  rake db:migrate:plugin NAME=redmine_delays VERSION=0 RAILS_ENV=production
+  ./script/plugin remove redmine_delays
