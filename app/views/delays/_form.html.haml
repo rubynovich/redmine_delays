@@ -1,0 +1,15 @@
+= error_messages_for @delay
+
+.box.tabular
+  %p= f.select :user_id, User.find(:all, :order => "lastname, firstname").map {|c| [c.name, c.id]}, :required => true, :prompt => t(:prompt_please_select)
+  %p
+    = f.text_field :delay_on, :size => 10, :required => true
+    = calendar_for('delay_delay_on')
+  %p
+    %label{:for=>'delay_arrival_time'}
+      = l(:field_arrival_time)
+      %span{:class => :required}= '*'
+    = f.time_select :arrival_time, {:minute_step => 5}
+  %p
+    = f.text_field :reason, :cols => 60
+

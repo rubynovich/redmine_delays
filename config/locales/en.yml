@@ -1,0 +1,6 @@
+# English strings go here for Rails i18n
+en:
+  label_delay_plural: "Delays"
+  redmine_delays_plugin: "Registration delays"
+  roman_shipiev: "Roman Shipiev"
+  redmine_delays_plugin_description: 'Redmine plugin to register late for work'

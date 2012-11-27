@@ -1,0 +1,10 @@
+# Russian strings go here for Rails i18n
+ru:
+  label_delay_plural: "Опоздания"
+  label_delay_new: "Добавить опоздание"
+  field_delay_on: "Дата"
+  field_arrival_time: "Время прихода"
+  field_reason: "Причина"
+  redmine_delays_plugin: "Регистрация опозданий"
+  roman_shipiev: "Роман Шипиев"
+  redmine_delays_plugin_description: "Регистрирует опоздания на работу"

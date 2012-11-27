@@ -1,0 +1,83 @@
+.contextual
+  = link_to l(:label_delay_new), new_delay_path, :class => 'icon icon-add'
+
+%h2=l(:label_delay_plural)
+
+- form_tag({}, :method => :get) do
+  %fieldset
+    %legend= l(:label_filter_plural)
+
+    = hidden_field_tag :delay_on, params[:delay_on]    
+
+    %label{:for=>'author_id'}= l(:field_author) + ":"
+    %select{:id => 'author_id', :name => 'author_id', :class => "small", :onchange => "this.form.submit(); return false;"}
+      %option
+      - VacationManager.all.map(&:user).sort_by(&:name).each do |user|
+        - if params[:author_id].to_i == user.id
+          %option{:value => user.id, :selected => "selected"}
+            = user.name
+        - else
+          %option{:value => user.id}
+            = user.name
+
+    &nbsp;
+
+    %label{:for=>'user_name'}= l(:field_user) + ":"
+    = text_field_tag 'user_name', params[:user_name], :size => 30
+
+    = submit_tag l(:button_apply), :class => "small", :name => nil
+    = link_to l(:button_clear), {:action => params[:action]}, :class => 'icon icon-reload'
+   
+    - %w{delay_on}.each do |type_date|
+      %br
+      %label=l(:"field_#{type_date}") + ":"
+      - %w{all prev_month this_month prev_year this_year}.each do |key|
+        - if params[:"#{type_date}"] == key
+          %strong
+            = l(:"label_#{key}")
+        - else
+          = link_to l(:"label_#{key}"), params.merge( :"#{type_date}" => key )
+        = "(#{Delay.time_period(key, :"#{type_date}").count}) /"
+
+   
+&nbsp;
+
+- if @delays.any?
+  %table.list
+    %thead
+      %tr
+        =sort_header_tag :user_id, :caption => l(:field_user)
+        =sort_header_tag :delay_on, :caption => l(:field_delay_on)
+        =sort_header_tag :arrival_time, :caption => l(:field_arrival_time)
+        %th=l(:field_reason)
+        =sort_header_tag :author_id, :caption => l(:field_author)
+        =sort_header_tag :created_on, :caption => l(:field_created_on)
+        %th
+    %tbody
+      - @delays.each do |delay|
+        %tr{:class=>cycle("odd", "even")}
+          %td
+            - if delay.user
+              = link_to_user delay.user
+          %td{:align=>"center"}= format_date(delay.delay_on)
+          %td{:align=>"center"}= format_time(delay.arrival_time, false)
+          %td
+            = h(delay.reason)
+          %td
+            - if delay.author
+              = link_to_user delay.author
+          %td{:align=>"center"}= format_time(delay.created_on)
+          %td.buttons
+            = link_to l(:button_update), {:action => 'edit', :id => delay.id}, :class => 'icon icon-edit'
+            = link_to(l(:button_delete), delay_path(delay), :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')
+
+  %p.pagination= pagination_links_full @delay_pages, @delays_count
+
+  %p.other-formats
+    = l(:label_export_to)
+    = link_to 'CSV', params.merge(:format => :csv)
+- else
+  %p.nodata
+    = l(:label_no_data)
+
+- html_title(l(:label_delay_plural))
