@@ -12,7 +12,7 @@
     %label{:for=>'author_id'}= l(:field_author) + ":"
     %select{:id => 'author_id', :name => 'author_id', :class => "small", :onchange => "this.form.submit(); return false;"}
       %option
-      - VacationManager.all.map(&:user).sort_by(&:name).each do |user|
+      - VacationManager.all.map(&:user).compact.sort_by(&:name).each do |user|
         - if params[:author_id].to_i == user.id
           %option{:value => user.id, :selected => "selected"}
             = user.name
