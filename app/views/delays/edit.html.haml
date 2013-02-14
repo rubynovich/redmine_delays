@@ -1,9 +1,9 @@
 %h2
   = link_to l(:label_delay_plural), :action => :index
-  &#187; 
+  &#187;
   =h @delay
 
-- labelled_form_for @delay do |f|
+- form = labelled_form_for @delay do |f|
   = render :partial => 'form', :locals => {:f => f}
   = submit_tag l(:button_save)
-
+= form if Rails::VERSION::MAJOR >= 3  

@@ -3,11 +3,11 @@
 
 %h2=l(:label_delay_plural)
 
-- form_tag({}, :method => :get) do
+%form{:method => :get}
   %fieldset
     %legend= l(:label_filter_plural)
 
-    = hidden_field_tag :delay_on, params[:delay_on]    
+    = hidden_field_tag :delay_on, params[:delay_on]
 
     %label{:for=>'author_id'}= l(:field_author) + ":"
     %select{:id => 'author_id', :name => 'author_id', :class => "small", :onchange => "this.form.submit(); return false;"}
@@ -27,7 +27,7 @@
 
     = submit_tag l(:button_apply), :class => "small", :name => nil
     = link_to l(:button_clear), {:action => params[:action]}, :class => 'icon icon-reload'
-   
+
     - %w{delay_on}.each do |type_date|
       %br
       %label=l(:"field_#{type_date}") + ":"
@@ -39,7 +39,7 @@
           = link_to l(:"label_#{key}"), params.merge( :"#{type_date}" => key )
         = "(#{Delay.time_period(key, :"#{type_date}").count}) /"
 
-   
+
 &nbsp;
 
 - if @delays.any?
