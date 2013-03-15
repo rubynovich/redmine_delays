@@ -20,7 +20,7 @@ class DelaysController < ApplicationController
     @limit = per_page_option
 
     @scope = Delay.time_period(params[:delay_on], :delay_on).
-      like_username(params[:user_name]).
+#      like_username(params[:user_name]).
       eql_field(params[:author_id], :author_id)
 
     @delays_count = @scope.count
