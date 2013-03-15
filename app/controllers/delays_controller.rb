@@ -13,7 +13,7 @@ class DelaysController < ApplicationController
     sort_init 'created_on', 'desc'
     sort_update({
       'arrival_time' => 'arrival_time', 'delay_on' => 'delay_on',
-#FIXME      'user_id' => ["users.lastname", "users.firstname"],
+      'user_id' => ["users.lastname", "users.firstname"],
 #FIXME      'author_id' => ["users.lastname", "users.firstname"],
       'created_on' => 'created_on'})
 
@@ -29,7 +29,8 @@ class DelaysController < ApplicationController
     @delays =  @scope.find  :all,
                             :order => sort_clause,
                             :limit  =>  @limit,
-                            :offset =>  @offset
+                            :offset =>  @offset,
+                            :joins => :user
     respond_to do |format|
       format.html{ render :action => :index }
       format.csv{ send_data(index_to_csv, :type => 'text/csv; header=present', :filename => Date.today.strftime("delays_%Y-%m-%d.csv")) }
