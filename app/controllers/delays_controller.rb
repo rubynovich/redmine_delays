@@ -13,8 +13,8 @@ class DelaysController < ApplicationController
     sort_init 'created_on', 'desc'
     sort_update({
       'arrival_time' => 'arrival_time', 'delay_on' => 'delay_on',
-#      'user_id' => ["users.lastname", "users.firstname"],
-#      'author_id' => ["users.lastname", "users.firstname"],
+      'user_id' => ["users.lastname", "users.firstname"],
+      'author_id' => ["users.lastname", "users.firstname"],
       'created_on' => 'created_on'})
 
     @limit = per_page_option
