@@ -12,7 +12,7 @@ class Delay < ActiveRecord::Base
         {:conditions =>
           ["LOWER(users.firstname) LIKE :p OR users.firstname LIKE :p OR LOWER(users.lastname) LIKE :p OR users.lastname LIKE :p",
           {:p => "%#{q.to_s.downcase}%"}],
-         :include => :user}
+         :joins => :user}
       end
     }
 
