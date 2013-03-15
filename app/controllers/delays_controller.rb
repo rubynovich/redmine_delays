@@ -29,7 +29,8 @@ class DelaysController < ApplicationController
     @delays =  @scope.find  :all,
                             :order => sort_clause,
                             :limit  =>  @limit,
-                            :offset =>  @offset
+                            :offset =>  @offset,
+                            :joins => User.table_name
     respond_to do |format|
       format.html{ render :action => :index }
       format.csv{ send_data(index_to_csv, :type => 'text/csv; header=present', :filename => Date.today.strftime("delays_%Y-%m-%d.csv")) }
