@@ -13,14 +13,14 @@ class DelaysController < ApplicationController
     sort_init 'created_on', 'desc'
     sort_update({
       'arrival_time' => 'arrival_time', 'delay_on' => 'delay_on',
-      'user_id' => ["users.lastname", "users.firstname"],
-      'author_id' => ["users.lastname", "users.firstname"],
+#FIXME      'user_id' => ["users.lastname", "users.firstname"],
+#FIXME      'author_id' => ["users.lastname", "users.firstname"],
       'created_on' => 'created_on'})
 
     @limit = per_page_option
 
     @scope = Delay.time_period(params[:delay_on], :delay_on).
-#      like_username(params[:user_name]).
+#FIXME      like_username(params[:user_name]).
       eql_field(params[:author_id], :author_id)
 
     @delays_count = @scope.count
@@ -29,8 +29,7 @@ class DelaysController < ApplicationController
     @delays =  @scope.find  :all,
                             :order => sort_clause,
                             :limit  =>  @limit,
-                            :offset =>  @offset,
-                            :joins => User.table_name
+                            :offset =>  @offset
     respond_to do |format|
       format.html{ render :action => :index }
       format.csv{ send_data(index_to_csv, :type => 'text/csv; header=present', :filename => Date.today.strftime("delays_%Y-%m-%d.csv")) }
