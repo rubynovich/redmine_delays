@@ -2,7 +2,7 @@ class DelaysController < ApplicationController
   unloadable
   before_filter :require_vacation_manager
   before_filter :new_delay, :only => [:new, :index, :create]
-  before_filter :find_delay, :only => [:edit, :update, :show, :destroy]  
+  before_filter :find_delay, :only => [:edit, :update, :show, :destroy]
 
   helper :sort
   include SortHelper
@@ -11,15 +11,15 @@ class DelaysController < ApplicationController
 
   def index
     sort_init 'created_on', 'desc'
-    sort_update({'user_id' => ["users.last_name", "users.first_name"], 'arrival_time' => 'arrival_time', 'delay_on' => 'delay_on',
-      'author_id' => ["users.last_name", "users.first_name"], 'created_on' => 'created_on'})
-    
+    sort_update({'user_id' => ["users.lastname", "users.firstname"], 'arrival_time' => 'arrival_time', 'delay_on' => 'delay_on',
+      'author_id' => ["users.lastname", "users.firstname"], 'created_on' => 'created_on'})
+
     @limit = per_page_option
-    
+
     @scope = Delay.time_period(params[:delay_on], :delay_on).
       like_username(params[:user_name]).
       eql_field(params[:author_id], :author_id)
-    
+
     @delays_count = @scope.count
     @delay_pages = Paginator.new self, @delays_count, @limit, params[:page]
     @offset ||= @delay_pages.current.offset
@@ -35,7 +35,7 @@ class DelaysController < ApplicationController
 
   def new
   end
-  
+
   def create
     if @delay.save
       flash[:notice] = l(:notice_successful_create)
@@ -47,7 +47,7 @@ class DelaysController < ApplicationController
 
   def edit
   end
-  
+
   def update
     if @delay.update_attributes(params[:delay])
       flash[:notice] = l(:notice_successful_update)
@@ -56,24 +56,24 @@ class DelaysController < ApplicationController
       render :action => :edit
     end
   end
-  
+
   def destroy
     @delay.destroy
     redirect_to :action => :index
   rescue
     flash[:error] = l(:error_unable_delete_delay)
     redirect_to :action => :index
-  end  
-  
+  end
+
   private
     def new_delay
       @delay = Delay.new((params[:delay] || {}).merge(:author_id => User.current.id))
     end
-    
+
     def find_delay
       @delay = Delay.find(params[:id])
     end
-      
+
     def require_vacation_manager
       (render_403; return false) unless User.current.is_vacation_manager?
     end
