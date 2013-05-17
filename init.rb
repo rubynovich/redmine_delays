@@ -5,7 +5,6 @@ Redmine::Plugin.register :redmine_delays do
   author "Roman Shipiev"
   description 'Plugin fixes delays of employees'
   version '0.0.1'
-  url 'https://github.com/rubynovich/redmine_delays'
   url 'https://bitbucket.org/rubynovich/redmine_delays'
   author_url 'http://roman.shipiev.me/'
 
