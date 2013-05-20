@@ -3,7 +3,7 @@ require 'redmine'
 Redmine::Plugin.register :redmine_delays do
   name "Delays"
   author "Roman Shipiev"
-  description 'Plugin fixes delays of employees'
+  description 'Fixing delays of employees'
   version '0.0.1'
   url 'https://bitbucket.org/rubynovich/redmine_delays'
   author_url 'http://roman.shipiev.me/'
