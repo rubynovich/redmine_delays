@@ -71,7 +71,7 @@
             = link_to l(:button_update), {:action => 'edit', :id => delay.id}, :class => 'icon icon-edit'
             = link_to(l(:button_delete), delay_path(delay), :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')
 
-  %p.pagination= pagination_links_full @delay_pages, @delays_count
+  %p.pagination= pagination_links_full @pages, @count
 
   %p.other-formats
     = l(:label_export_to)

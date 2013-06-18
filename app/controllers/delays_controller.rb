@@ -23,9 +23,19 @@ class DelaysController < ApplicationController
       like_username(params[:user_name]).
       eql_field(params[:author_id], :author_id)
 
-    @delays_count = @scope.count
-    @delay_pages = Paginator.new self, @delays_count, @limit, params[:page]
-    @offset ||= @delay_pages.current.offset
+    @count = @scope.count
+
+    @pages = begin
+      Paginator.new @count, @limit, params[:page]
+    rescue
+      Paginator.new self, @count, @limit, params[:page]
+    end
+    @offset ||= begin
+      @pages.current.offset
+    rescue
+      @pages.offset
+    end
+
     @delays =  @scope.find  :all,
                             :order => sort_clause,
                             :limit  =>  @limit,
