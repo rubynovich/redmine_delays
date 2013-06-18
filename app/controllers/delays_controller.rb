@@ -31,9 +31,9 @@ class DelaysController < ApplicationController
       Paginator.new self, @count, @limit, params[:page]
     end
     @offset ||= begin
-      @pages.current.offset
-    rescue
       @pages.offset
+    rescue
+      @pages.current.offset
     end
 
     @delays =  @scope.find  :all,
