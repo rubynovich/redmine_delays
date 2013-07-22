@@ -6,159 +6,48 @@ class Delay < ActiveRecord::Base
 
   validates_presence_of :user_id, :author_id, :arrival_time, :delay_on
 
-  if Rails::VERSION::MAJOR >= 3
-    scope :like_username, lambda {|q|
-      if q.present?
-        {:conditions =>
-          ["LOWER(users.firstname) LIKE :p OR users.firstname LIKE :p OR LOWER(users.lastname) LIKE :p OR users.lastname LIKE :p",
-          {:p => "%#{q.to_s.downcase}%"}],
-         :joins => :user}
-      end
-    }
+  scope :like_username, lambda {|q|
+    if q.present?
+      {:conditions =>
+        ["LOWER(users.firstname) LIKE :p OR users.firstname LIKE :p OR LOWER(users.lastname) LIKE :p OR users.lastname LIKE :p",
+         {:p => "%#{q.to_s.downcase}%"}],
+        :joins => :user}
+    end
+  }
 
-    scope :eql_field, lambda{ |q, field|
-      where(field => q) if q.present? && field.present?
-    }
+  scope :eql_field, lambda{ |q, field|
+    where(field => q) if q.present? && field.present?
+  }
 
-    scope :time_period, lambda {|q, field|
-      today = Date.today
-      if q.present? && field.present?
-        {:conditions =>
-          (case q
-            when "yesterday"
-              ["#{field} BETWEEN ? AND ?",
-                2.days.ago,
-                1.day.ago]
-            when "today"
-              ["#{field} BETWEEN ? AND ?",
-                1.day.ago,
-                1.day.from_now]
-            when "tomorrow"
-              ["#{field} BETWEEN ? AND ?",
-                1.day.from_now,
-                2.days.from_now]
-            when "prev_week"
-              ["#{field} BETWEEN ? AND ?",
-                2.week.ago + today.wday.days,
-                1.week.ago + today.wday.days]
-            when "this_week"
-              ["#{field} BETWEEN ? AND ?",
-                1.week.ago + today.wday.days,
-                1.week.from_now - today.wday.days]
-            when "next_week"
-              ["#{field} BETWEEN ? AND ?",
-                1.week.from_now - today.wday.days,
-                2.week.from_now - today.wday.days]
-            when "prev_month"
-              ["#{field} BETWEEN ? AND ?",
-                2.month.ago + today.day.days,
-                1.month.ago + today.day.days]
-            when "this_month"
-              ["#{field} BETWEEN ? AND ?",
-                1.month.ago + today.day.days,
-                1.month.from_now - today.day.days]
-            when "next_month"
-              ["#{field} BETWEEN ? AND ?",
-                1.month.from_now - today.day.days,
-                2.month.from_now - today.day.days]
-            when "prev_year"
-              ["#{field} BETWEEN ? AND ?",
-                2.year.ago + today.yday.days,
-                1.year.ago + today.yday.days]
-            when "this_year"
-              ["#{field} BETWEEN ? AND ?",
-                1.year.from_now - today.yday.days,
-                1.year.from_now - today.yday.days]
-            when "next_year"
-              ["#{field} BETWEEN ? AND ?",
-                1.year.from_now - today.yday.days,
-                2.year.from_now - today.yday.days]
-            else
-              {}
-          end)
-        }
-      end
-    }
-  else
-    named_scope :like_username, lambda {|q|
-      if q.present?
-        {:conditions =>
-          ["LOWER(users.firstname) LIKE :p OR users.firstname LIKE :p OR LOWER(users.lastname) LIKE :p OR users.lastname LIKE :p",
-          {:p => "%#{q.to_s.downcase}%"}],
-         :joins => :user}
-      end
-    }
+  scope :time_period, lambda {|q, field|
+    today = Date.today
+    if q.present? && field.present?
+      period_start, period_end = case q
+                                 when "yesterday"
+                                   [ 1.day.ago.beginning_of_day, 1.day.ago.end_of_day ]
+                                 when "today"
+                                   [ today.beginning_of_day, today.end_of_day ]
+                                 when "last_week"
+                                   [ 1.week.ago.beginning_of_week, 1.week.ago.end_of_week ]
+                                 when "this_week"
+                                   [ today.beginning_of_week, today.end_of_week]
+                                 when "last_month"
+                                   [1.month.ago.beginning_of_month, 1.month.ago.end_of_month]
+                                 when "this_month"
+                                   [today.beginning_of_month, today.end_of_month]
+                                 when "last_year"
+                                   [1.year.ago.beginning_of_year, 1.year.ago.end_of_year ]
+                                 when "this_year"
+                                   [today.beginning_of_year, today.end_of_year ]
+                                 end
 
-    named_scope :eql_field, lambda{ |q, field|
-      {:conditions => {field => q}} if q.present? && field.present?
-    }
-
-    named_scope :time_period, lambda {|q, field|
-      today = Date.today
-      if q.present? && field.present?
-        {:conditions =>
-          (case q
-            when "yesterday"
-              ["#{field} BETWEEN ? AND ?",
-                2.days.ago,
-                1.day.ago]
-            when "today"
-              ["#{field} BETWEEN ? AND ?",
-                1.day.ago,
-                1.day.from_now]
-            when "tomorrow"
-              ["#{field} BETWEEN ? AND ?",
-                1.day.from_now,
-                2.days.from_now]
-            when "prev_week"
-              ["#{field} BETWEEN ? AND ?",
-                2.week.ago + today.wday.days,
-                1.week.ago + today.wday.days]
-            when "this_week"
-              ["#{field} BETWEEN ? AND ?",
-                1.week.ago + today.wday.days,
-                1.week.from_now - today.wday.days]
-            when "next_week"
-              ["#{field} BETWEEN ? AND ?",
-                1.week.from_now - today.wday.days,
-                2.week.from_now - today.wday.days]
-            when "prev_month"
-              ["#{field} BETWEEN ? AND ?",
-                2.month.ago + today.day.days,
-                1.month.ago + today.day.days]
-            when "this_month"
-              ["#{field} BETWEEN ? AND ?",
-                1.month.ago + today.day.days,
-                1.month.from_now - today.day.days]
-            when "next_month"
-              ["#{field} BETWEEN ? AND ?",
-                1.month.from_now - today.day.days,
-                2.month.from_now - today.day.days]
-            when "prev_year"
-              ["#{field} BETWEEN ? AND ?",
-                2.year.ago + today.yday.days,
-                1.year.ago + today.yday.days]
-            when "this_year"
-              ["#{field} BETWEEN ? AND ?",
-                1.year.from_now - today.yday.days,
-                1.year.from_now - today.yday.days]
-            when "next_year"
-              ["#{field} BETWEEN ? AND ?",
-                1.year.from_now - today.yday.days,
-                2.year.from_now - today.yday.days]
-            else
-              {}
-          end)
-        }
-      end
-    }
-  end
+      {:conditions => ["#{field} BETWEEN ? AND ?", period_start , period_end] }
+     
+    end
+  }
 
   def to_s
-    if user
-      user.name
-    else
-      ""
-    end
+    user ? user.name : ""
   end
+
 end

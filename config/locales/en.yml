@@ -8,3 +8,12 @@ en:
   redmine_delays_plugin: "Registration delays"
   roman_shipiev: "Roman Shipiev"
   redmine_delays_plugin_description: 'Redmine plugin to register late for work'
+
+  link_today: today
+  link_yesterday: yesterday
+  link_last_week: last week
+  link_this_week: this week
+  link_last_month: last month
+  link_this_month: this month
+  link_last_year: last year
+  link_this_year: this year

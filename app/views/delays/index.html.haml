@@ -31,12 +31,12 @@
     - %w{delay_on}.each do |type_date|
       %br
       %label=l(:"field_#{type_date}") + ":"
-      - %w{all prev_month this_month prev_year this_year}.each do |key|
+      - time_periods.each do |key|
         - if params[:"#{type_date}"] == key
           %strong
-            = l(:"label_#{key}")
+            = l(:"link_#{key}")
         - else
-          = link_to l(:"label_#{key}"), params.merge( :"#{type_date}" => key )
+          = link_to l(:"link_#{key}"), params.merge( :"#{type_date}" => key )
         = "(#{Delay.time_period(key, :"#{type_date}").count}) /"
 
 

@@ -1,4 +1,9 @@
 module DelaysHelper
+
+  def time_periods
+    %w{yesterday last_week this_week last_month this_month last_year this_year}
+  end
+
   def index_to_csv
     decimal_separator = l(:general_csv_decimal_separator)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
@@ -28,4 +33,5 @@ module DelaysHelper
     end
     export    
   end
+
 end
