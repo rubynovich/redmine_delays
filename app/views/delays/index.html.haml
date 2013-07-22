@@ -34,9 +34,9 @@
       - time_periods.each do |key|
         - if params[:"#{type_date}"] == key
           %strong
-            = l(:"link_#{key}")
+            = l(:"label_period_#{key}")
         - else
-          = link_to l(:"link_#{key}"), params.merge( :"#{type_date}" => key )
+          = link_to l(:"label_period_#{key}"), params.merge( :"#{type_date}" => key )
         = "(#{Delay.time_period(key, :"#{type_date}").count}) /"
 
 
