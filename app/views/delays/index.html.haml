@@ -31,7 +31,7 @@
     - %w{delay_on}.each do |type_date|
       %br
       %label=l(:"field_#{type_date}") + ":"
-      - time_periods.each do |key|
+      - Delay.time_periods.each do |key|
         - if params[:"#{type_date}"] == key
           %strong
             = l(:"label_period_#{key}")

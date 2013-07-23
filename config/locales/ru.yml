@@ -9,6 +9,7 @@ ru:
   roman_shipiev: "Роман Шипиев"
   redmine_delays_plugin_description: "Регистрирует опоздания на работу"
 
+  label_period_any: любой
   label_period_today: сегодня
   label_period_yesterday: вчера
   label_period_last_week: предыдущая неделя

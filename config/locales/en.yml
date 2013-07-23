@@ -9,6 +9,7 @@ en:
   roman_shipiev: "Roman Shipiev"
   redmine_delays_plugin_description: 'Redmine plugin to register late for work'
 
+  label_period_any: any
   label_period_today: today
   label_period_yesterday: yesterday
   label_period_last_week: last week
