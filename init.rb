@@ -21,6 +21,6 @@ Rails.configuration.to_prepare do
   require_dependency 'delay'
   require 'time_period_scope'
   unless Delay.included_modules.include? TimePeriodScope
-    Delay.send( :include, ) 
+    Delay.send( :include, TimePeriodScope) 
   end
 end
