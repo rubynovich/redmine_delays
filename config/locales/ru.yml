@@ -2,7 +2,7 @@
 ru:
   label_delay_plural: "Опоздания"
   label_delay_new: "Добавить опоздание"
-  field_delay_on: "Дата"
+  field_delay_on: "Период"
   field_arrival_time: "Время прихода"
   field_reason: "Причина"
   redmine_delays_plugin: "Регистрация опозданий"
