@@ -1,0 +1,3 @@
+%p
+  %label= l(:label_delay_manager_plural)
+  = select_tag("settings[principal_id]", principals_options_for_select(Principal.active.all, (Principal.find(@settings[:principal_id]) rescue nil)), :prompt => t(:prompt_please_select))
