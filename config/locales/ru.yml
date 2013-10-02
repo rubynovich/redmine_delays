@@ -8,7 +8,6 @@ ru:
   redmine_delays_plugin: "Регистрация опозданий"
   roman_shipiev: "Роман Шипиев"
   redmine_delays_plugin_description: "Регистрирует опоздания на работу"
-  label_delay_manager_plural: "Могут фиксировать опоздания"
 
   label_period_any: любой
   label_period_today: сегодня
@@ -19,3 +18,4 @@ ru:
   label_period_this_month: этот месяц
   label_period_last_year: прошлый год
   label_period_this_year: этот год
+  label_delay_manager_plural: Менеджеры опозданий

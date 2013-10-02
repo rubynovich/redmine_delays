@@ -8,25 +8,30 @@ Redmine::Plugin.register :redmine_delays do
   url 'https://bitbucket.org/rubynovich/redmine_delays'
   author_url 'http://roman.shipiev.me/'
 
+  settings :partial => 'delays/settings'
+
   menu :application_menu, :delays,
     {:controller => :delays, :action => :index},
     :caption => :label_delay_plural,
     :after => :vacation_statuses,
-    :if => Proc.new{ User.current.delay_manager? }
-
-  settings partial: 'delays/settings'
+    :if => Proc.new{ User.current.is_delays_manager? }
 
 end
 
 Rails.configuration.to_prepare do
-  require_dependency 'delay'
-  require 'time_period_scope'
-  unless Delay.included_modules.include? TimePeriodScope
-    Delay.send(:include, TimePeriodScope)
+
+  [:user].each do |cl|
+    require "delays_#{cl}_patch"
   end
 
-  require 'delays_user_patch'
-  unless User.included_modules.include? DelaysPlugin::UserPatch
-    User.send(:include, DelaysPlugin::UserPatch)
+  require_dependency 'delay'
+  require 'time_period_scope'
+
+  [
+   [User, StaffRequestPlugin::UserPatch],
+   [Delay, TimePeriodScope]
+  ].each do |cl, patch|
+    cl.send(:include, patch) unless cl.included_modules.include? patch
   end
+
 end

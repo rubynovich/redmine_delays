@@ -13,11 +13,11 @@ module DelaysPlugin
     end
 
     module ClassMethods
-
     end
 
     module InstanceMethods
-      def delay_manager?
+
+      def is_delays_manager?
         begin
           principal = Principal.find(Setting[:plugin_redmine_delays][:principal_id])
           if principal.is_a?(Group)

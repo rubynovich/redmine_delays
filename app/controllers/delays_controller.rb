@@ -1,6 +1,6 @@
 class DelaysController < ApplicationController
   unloadable
-  before_filter :require_vacation_manager
+  before_filter :require_delays_manager
   before_filter :new_delay, :only => [:new, :index, :create]
   before_filter :find_delay, :only => [:edit, :update, :show, :destroy]
 
@@ -88,7 +88,7 @@ class DelaysController < ApplicationController
       @delay = Delay.find(params[:id])
     end
 
-    def require_vacation_manager
-      (render_403; return false) unless User.current.is_vacation_manager?
+    def require_delays_manager
+      (render_403; return false) unless User.current.is_delays_manager?
     end
 end
