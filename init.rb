@@ -28,7 +28,7 @@ Rails.configuration.to_prepare do
   require 'time_period_scope'
 
   [
-   [User, StaffRequestPlugin::UserPatch],
+   [User, DelaysPlugin::UserPatch],
    [Delay, TimePeriodScope]
   ].each do |cl, patch|
     cl.send(:include, patch) unless cl.included_modules.include? patch
