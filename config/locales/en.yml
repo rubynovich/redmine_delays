@@ -8,6 +8,7 @@ en:
   redmine_delays_plugin: "Registration delays"
   roman_shipiev: "Roman Shipiev"
   redmine_delays_plugin_description: 'Redmine plugin to register late for work'
+  label_delay_manager_plural: "Delay managers"
 
   label_period_any: any
   label_period_today: today
