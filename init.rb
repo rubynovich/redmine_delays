@@ -10,11 +10,24 @@ Redmine::Plugin.register :redmine_delays do
 
   settings :partial => 'delays/settings'
 
-  menu :application_menu, :delays,
-    {:controller => :delays, :action => :index},
-    :caption => :label_delay_plural,
-    :after => :vacation_statuses,
-    :if => Proc.new{ User.current.is_delays_manager? }
+  Redmine::MenuManager.map :top_menu do |menu| 
+
+    unless menu.exists?(:hr)
+      menu.push(:hr, "#", 
+                { :after => :projects,
+                  :parent => :top_menu, 
+                  :caption => :label_hr_menu
+                })
+    end
+
+    menu.push(:delays, 
+              {:controller => :delays, :action => :index},
+              { :parent => :hr,
+                :caption => :label_delay_plural,
+                :if => Proc.new{ User.current.is_delays_manager? }
+              })
+
+  end
 
 end
 
