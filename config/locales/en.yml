@@ -1,8 +1,5 @@
 # English strings go here for Rails i18n
 en:
-
-  label_hr_menu: HR
-
   label_delay_plural: "Delays"
   label_delay_new: "Add delay"
   field_delay_on: "Date"

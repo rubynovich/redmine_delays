@@ -12,17 +12,10 @@ Redmine::Plugin.register :redmine_delays do
 
   Redmine::MenuManager.map :top_menu do |menu| 
 
-    unless menu.exists?(:hr)
-      menu.push(:hr, "#", 
-                { :after => :projects,
-                  :parent => :top_menu, 
-                  :caption => :label_hr_menu
-                })
-    end
-
+    parent = menu.exists?(:hr) ? :hr : :top_menu
     menu.push(:delays, 
               {:controller => :delays, :action => :index},
-              { :parent => :hr,
+              { :parent => parent,
                 :caption => :label_delay_plural,
                 :if => Proc.new{ User.current.is_delays_manager? }
               })

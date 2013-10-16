@@ -1,8 +1,5 @@
 # Russian strings go here for Rails i18n
 ru:
-
-  label_hr_menu: HR
-
   label_delay_plural: "Опоздания"
   label_delay_new: "Добавить опоздание"
   field_delay_on: "Период"
